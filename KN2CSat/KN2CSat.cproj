@@ -32,6 +32,7 @@
     <option id="common.boards" value="Add" config="" content-id="Atmel.ASF" />
     <option id="xmega.drivers.tc" value="Add" config="" content-id="Atmel.ASF" />
     <option id="xmega.drivers.usart" value="Add" config="" content-id="Atmel.ASF" />
+    <option id="xmega.drivers.spi" value="Add" config="" content-id="Atmel.ASF" />
   </options>
   <configurations />
   <files>
@@ -83,6 +84,8 @@
     <file path="src/Config/conf_sleepmgr.h" framework="" version="3.20.1" source="common\services\sleepmgr\xmega\module_config\conf_sleepmgr.h" changed="False" content-id="Atmel.ASF" />
     <file path="src/ASF/xmega/drivers/usart/usart.c" framework="" version="3.20.1" source="xmega\drivers\usart\usart.c" changed="False" content-id="Atmel.ASF" />
     <file path="src/ASF/xmega/drivers/usart/usart.h" framework="" version="3.20.1" source="xmega\drivers\usart\usart.h" changed="False" content-id="Atmel.ASF" />
+    <file path="src/ASF/xmega/drivers/spi/spi.c" framework="" version="3.20.1" source="xmega\drivers\spi\spi.c" changed="False" content-id="Atmel.ASF" />
+    <file path="src/ASF/xmega/drivers/spi/spi.h" framework="" version="3.20.1" source="xmega\drivers\spi\spi.h" changed="False" content-id="Atmel.ASF" />
   </files>
   <documentation help="http://asf.atmel.com/docs/3.20.1/common.applications.user_application.user_board.xmegaau/html/index.html" />
   <offline-documentation help="" />
@@ -127,6 +130,7 @@
       <Value>../src/ASF/common/services/ioport</Value>
       <Value>../src/ASF/common/services/sleepmgr</Value>
       <Value>../src/ASF/xmega/drivers/usart</Value>
+      <Value>../src/ASF/xmega/drivers/spi</Value>
     </ListValues>
   </avrgcc.compiler.directories.IncludePaths>
   <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
@@ -161,6 +165,7 @@
       <Value>../src/ASF/common/services/ioport</Value>
       <Value>../src/ASF/common/services/sleepmgr</Value>
       <Value>../src/ASF/xmega/drivers/usart</Value>
+      <Value>../src/ASF/xmega/drivers/spi</Value>
     </ListValues>
   </avrgcc.assembler.general.IncludePaths>
 </AvrGcc>
@@ -199,6 +204,7 @@
       <Value>../src/ASF/common/services/ioport</Value>
       <Value>../src/ASF/common/services/sleepmgr</Value>
       <Value>../src/ASF/xmega/drivers/usart</Value>
+      <Value>../src/ASF/xmega/drivers/spi</Value>
     </ListValues>
   </avrgcc.compiler.directories.IncludePaths>
   <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
@@ -234,6 +240,7 @@
       <Value>../src/ASF/common/services/ioport</Value>
       <Value>../src/ASF/common/services/sleepmgr</Value>
       <Value>../src/ASF/xmega/drivers/usart</Value>
+      <Value>../src/ASF/xmega/drivers/spi</Value>
     </ListValues>
   </avrgcc.assembler.general.IncludePaths>
   <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
@@ -262,6 +269,7 @@
     <Folder Include="src\ASF\xmega\drivers\nvm\" />
     <Folder Include="src\ASF\xmega\drivers\pmic\" />
     <Folder Include="src\ASF\xmega\drivers\sleep\" />
+    <Folder Include="src\ASF\xmega\drivers\spi\" />
     <Folder Include="src\ASF\xmega\drivers\tc\" />
     <Folder Include="src\ASF\xmega\drivers\usart\" />
     <Folder Include="src\ASF\xmega\utils\" />
@@ -271,6 +279,12 @@
     <Folder Include="src\config\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\ASF\xmega\drivers\spi\spi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\ASF\xmega\drivers\spi\spi.h">
+      <SubType>compile</SubType>
+    </None>
     <Compile Include="src\avr_compiler.h">
       <SubType>compile</SubType>
     </Compile>
@@ -278,6 +292,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\MS5611.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\NRF24l01.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\NRF24l01c.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\setting.c">

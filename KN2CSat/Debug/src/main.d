@@ -35,6 +35,7 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/common/services/ioport/ioport.h \
  ../src/ASF/common/services/ioport/xmega/ioport.h \
  ../src/ASF/xmega/drivers/nvm/nvm.h ../src/ASF/xmega/drivers/pmic/pmic.h \
+ ../src/ASF/xmega/drivers/spi/spi.h ../src/ASF/xmega/utils/status_codes.h \
  ../src/ASF/xmega/drivers/sleep/sleep.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\sleep.h \
  ../src/ASF/common/services/sleepmgr/sleepmgr.h \
@@ -47,8 +48,7 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/common/services/clock/xmega/osc.h \
  ../src/ASF/common/services/clock/pll.h \
  ../src/ASF/common/services/clock/xmega/pll.h \
- ../src/ASF/xmega/drivers/tc/tc.h ../src/ASF/xmega/utils/status_codes.h \
- ../src/ASF/xmega/drivers/usart/usart.h \
+ ../src/ASF/xmega/drivers/tc/tc.h ../src/ASF/xmega/drivers/usart/usart.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\math.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\lib\gcc\avr\4.8.1\include\stdarg.h \
@@ -56,7 +56,7 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  ../src/twi_master_driver.h ../src/avr_compiler.h ../src/setting.h \
- ../src/MS5611.h ../src/SHT11.h
+ ../src/MS5611.h ../src/SHT11.h ../src/NRF24l01.h
 
 ../src/asf.h:
 
@@ -138,6 +138,10 @@ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-tool
 
 ../src/ASF/xmega/drivers/pmic/pmic.h:
 
+../src/ASF/xmega/drivers/spi/spi.h:
+
+../src/ASF/xmega/utils/status_codes.h:
+
 ../src/ASF/xmega/drivers/sleep/sleep.h:
 
 c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\sleep.h:
@@ -166,8 +170,6 @@ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-tool
 
 ../src/ASF/xmega/drivers/tc/tc.h:
 
-../src/ASF/xmega/utils/status_codes.h:
-
 ../src/ASF/xmega/drivers/usart/usart.h:
 
 c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\math.h:
@@ -191,3 +193,5 @@ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-tool
 ../src/MS5611.h:
 
 ../src/SHT11.h:
+
+../src/NRF24l01.h:

@@ -2,7 +2,11 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+src\ASF\xmega\drivers\spi\spi.c
+
 src\MS5611.c
+
+src\NRF24l01c.c
 
 src\setting.c
 

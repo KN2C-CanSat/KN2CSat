@@ -1,4 +1,4 @@
-src/SHT11.d src/SHT11.o: ../src/SHT11.c ../src/asf.h \
+src/NRF24l01c.d src/NRF24l01c.o: ../src/NRF24l01c.c ../src/asf.h \
  ../src/ASF/xmega/drivers/cpu/ccp.h ../src/ASF/xmega/utils/compiler.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
@@ -55,8 +55,7 @@ src/SHT11.d src/SHT11.o: ../src/SHT11.c ../src/asf.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\lib\gcc\avr\4.8.1\include\stdarg.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\string.h \
- ../src/twi_master_driver.h ../src/avr_compiler.h ../src/setting.h \
- ../src/SHT11.h
+ ../src/setting.h ../src/NRF24l01.h
 
 ../src/asf.h:
 
@@ -184,10 +183,6 @@ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-tool
 
 c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\string.h:
 
-../src/twi_master_driver.h:
-
-../src/avr_compiler.h:
-
 ../src/setting.h:
 
-../src/SHT11.h:
+../src/NRF24l01.h:

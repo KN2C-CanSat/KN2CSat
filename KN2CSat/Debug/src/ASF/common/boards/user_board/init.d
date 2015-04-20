@@ -37,6 +37,7 @@ src/ASF/common/boards/user_board/init.d \
  ../src/ASF/common/services/ioport/ioport.h \
  ../src/ASF/common/services/ioport/xmega/ioport.h \
  ../src/ASF/xmega/drivers/nvm/nvm.h ../src/ASF/xmega/drivers/pmic/pmic.h \
+ ../src/ASF/xmega/drivers/spi/spi.h ../src/ASF/xmega/utils/status_codes.h \
  ../src/ASF/xmega/drivers/sleep/sleep.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\sleep.h \
  ../src/ASF/common/services/sleepmgr/sleepmgr.h \
@@ -49,8 +50,7 @@ src/ASF/common/boards/user_board/init.d \
  ../src/ASF/common/services/clock/xmega/osc.h \
  ../src/ASF/common/services/clock/pll.h \
  ../src/ASF/common/services/clock/xmega/pll.h \
- ../src/ASF/xmega/drivers/tc/tc.h ../src/ASF/xmega/utils/status_codes.h \
- ../src/ASF/xmega/drivers/usart/usart.h
+ ../src/ASF/xmega/drivers/tc/tc.h ../src/ASF/xmega/drivers/usart/usart.h
 
 ../src/asf.h:
 
@@ -132,6 +132,10 @@ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-tool
 
 ../src/ASF/xmega/drivers/pmic/pmic.h:
 
+../src/ASF/xmega/drivers/spi/spi.h:
+
+../src/ASF/xmega/utils/status_codes.h:
+
 ../src/ASF/xmega/drivers/sleep/sleep.h:
 
 c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-toolchain\avr\include\avr\sleep.h:
@@ -159,7 +163,5 @@ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1061\avr8-gnu-tool
 ../src/ASF/common/services/clock/xmega/pll.h:
 
 ../src/ASF/xmega/drivers/tc/tc.h:
-
-../src/ASF/xmega/utils/status_codes.h:
 
 ../src/ASF/xmega/drivers/usart/usart.h:

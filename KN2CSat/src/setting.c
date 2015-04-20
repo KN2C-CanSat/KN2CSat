@@ -15,6 +15,7 @@
 #include <string.h>
 #include "setting.h"
 #include "MS5611.h"
+#include "NRF24l01.h"
 
 char buffer[100];
 void UART_SEND(int l)
@@ -42,16 +43,26 @@ void En_RC32M(void)
 
 void PORT_init(void)
 {
-
-	PORTE_DIRSET = LED_Blue_PIN_bm;  //LED
-	PORTE_OUTCLR = LED_Blue_PIN_bm;  //LED
+	//LED
+	PORTE_DIRSET = LED_Blue_PIN_bm;  
+	PORTE_OUTCLR = LED_Blue_PIN_bm;  
 	
-	PORTD_DIRSET = PIN3_bm; //TX
+	//TX
+	PORTD_DIRSET = PIN3_bm; 
 	PORTD_OUTSET = PIN3_bm;
 	
 	//SHT11 init
 	PORTA.DIR=0x30; 
 	PORTA.OUT=0x00;
+	
+	// wireless module & programmer data
+	PORTD_DIRSET = NRF24L01_L_CS_LINE | NRF24L01_L_MOSI_LINE | NRF24L01_L_SCK_LINE; 
+	PORTE_DIRSET = NRF24L01_L_CE_LINE;
+	
+	//IRQ interrupt (INT0)	
+	PORTE_PIN0CTRL |= PORT_ISC_FALLING_gc; 
+	PORTE_INTCTRL |= PORT_INT0LVL_LO_gc;
+	PORTE_INT0MASK |= PIN0_bm;
 };
 
 #define USARTD0_conf USARTD0
@@ -82,15 +93,23 @@ void set_micro(void)
 {
 
 	En_RC32M();
-	PMIC_CTRL |= PMIC_HILVLEN_bm | PMIC_LOLVLEN_bm |PMIC_MEDLVLEN_bm;
+	PMIC_CTRL |= PMIC_HILVLEN_bm | PMIC_LOLVLEN_bm |PMIC_MEDLVLEN_bm; // fa'al kardane interrupt ha?
 	PORT_init();
 	USARTD0_init();
 	TimerD0_init();
-
-	sei();
-
-	TWI_MasterInit(&twiMaster,&TWIC,TWI_MASTER_INTLVL_LO_gc,TWI_BAUDSETTING);	
+	SPI_Init();
+	TWI_MasterInit(&twiMaster,&TWIC,TWI_MASTER_INTLVL_LO_gc,TWI_BAUDSETTING);
 	TWIC.SLAVE.CTRLA=0;  //slave disabled
 	
+	sei();
 
+
+}
+
+
+void SPI_Init(void)
+{
+	spi_xmega_set_baud_div(&NRF24L01_L_SPI,8000000UL,F_CPU);
+	spi_enable_master_mode(&NRF24L01_L_SPI);
+	spi_enable(&NRF24L01_L_SPI);
 }

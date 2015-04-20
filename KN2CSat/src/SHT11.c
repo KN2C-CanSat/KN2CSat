@@ -33,7 +33,7 @@ const float T1=+0.01;             // for 14 Bit @ 5V
 const float T2=+0.00008;          // for 14 Bit @ 5V	
 
 
-void SHT11_print_temp_humy (void)
+void SHT11_measure (void)
 {
     
    // char str_hum_temp[10];            

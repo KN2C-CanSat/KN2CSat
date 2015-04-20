@@ -30,6 +30,6 @@ void s_connectionreset(void);
 char SHT11_softreset(void);
 char s_measure(unsigned char *p_value, unsigned char *p_checksum, unsigned char mode);
 void calc_sth11(float *p_humidity ,float *p_temperature);
-void SHT11_print_temp_humy (void);
+void SHT11_measure (void);
 
 #endif /* SHT11_H_ */
