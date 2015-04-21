@@ -14,6 +14,7 @@
 #include "twi_master_driver.h"
 #include "setting.h"
 #include "SHT11.h"
+#include "MS5611.h"
 
 long int H,T; 
 
@@ -221,8 +222,17 @@ char s_measure(unsigned char *p_value, unsigned char *p_checksum, unsigned char 
     case HUMI   : error+=SHT_WriteByte(MEASURE_HUMI); break;
     default     : break;    
   }
+  
+  //*********************************************************************************
+   switch(mode){                     //MS5611 measure
+	   case HUMI   : MS5611_measure(); break;
+	   default     : break;
+   }
+  
+  //*********************************************************************************
+  
   //*** inja ro zamanesho kam kon (test kon), chon kheili tulanie age bekhad gir kone barname be har dalili sensor natune kar kone
-  /*for (i=0;i<65535;i++) */    for (j=0;j<10240000;j++)   if(SHT_DATA_IN==0) break; //wait until sensor has finished the measurement
+  /*for (i=0;i<65535;i++) */    for (j=0;j<9344000;j++)   if(SHT_DATA_IN==0) break; //wait until sensor has finished the measurement
   if(SHT_DATA_IN) error+=1;                // or timeout (~2 sec.) is reached
   *(p_value+1)  =SHT_ReadByte(ACK);    //read the first byte (MSB)    dar micro harchi adrese bishtr, arzesh bishtar. baraks zakhire mikone
   *(p_value)  =SHT_ReadByte(ACK);    //read the second byte (LSB)
