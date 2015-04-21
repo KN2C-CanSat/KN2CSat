@@ -17,6 +17,8 @@
 #include "MS5611.h"
 #include "NRF24l01.h"
 
+uint8_t data_flag;
+
 char buffer[100];
 void UART_SEND(int l)
 {
@@ -78,10 +80,10 @@ void USARTD0_init(void)
 	usart_rx_enable(&USARTD0_conf);
 }
 
-#define TIMERD0_PER 0xF423
+#define TIMERD0_PER 0x7A11
 void TimerD0_init(void)
 {
-	tc_write_clock_source(&TCD0,TC_CLKSEL_DIV256_gc);
+	tc_write_clock_source(&TCD0,TC_CLKSEL_DIV1024_gc);
 	tc_set_wgm(&TCD0,TC_WG_NORMAL);
 	tc_set_overflow_interrupt_level(&TCD0,TC_INT_LVL_MED);
 	tc_write_period(&TCD0,TIMERD0_PER);

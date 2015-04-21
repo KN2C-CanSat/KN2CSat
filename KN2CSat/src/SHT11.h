@@ -22,6 +22,9 @@
 #define     MEASURE_HUMI    0x05   //000   0010    1
 #define     RESET           0x1e   //000   1111    0
 
+
+extern long int H,T; 
+
 //SHT Functions
 char SHT_WriteByte(unsigned char valu);
 char SHT_ReadByte(unsigned char ack);

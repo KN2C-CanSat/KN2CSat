@@ -15,6 +15,8 @@
 #include "setting.h"
 #include "SHT11.h"
 
+long int H,T; 
+
 typedef union
 {
 	unsigned int i;
@@ -39,7 +41,7 @@ void SHT11_measure (void)
    // char str_hum_temp[10];            
     value humi_val, temp_val;
     unsigned char error, checksum;
-	long int H,T; 
+	//long int H,T; 
     unsigned char crc;						
 	
     error=0;
@@ -208,7 +210,7 @@ char SHT11_softreset(void)
 char s_measure(unsigned char *p_value, unsigned char *p_checksum, unsigned char mode)
 { 
   unsigned error=0;                                  
-  unsigned int i,j; 
+  unsigned long int i,j; 
   
   //puts("s_measure");
   //putchar('\r');
@@ -220,7 +222,7 @@ char s_measure(unsigned char *p_value, unsigned char *p_checksum, unsigned char 
     default     : break;    
   }
   //*** inja ro zamanesho kam kon (test kon), chon kheili tulanie age bekhad gir kone barname be har dalili sensor natune kar kone
-  for (i=0;i<65535;i++)     for (j=0;j<65535;j++)   if(SHT_DATA_IN==0) break; //wait until sensor has finished the measurement
+  /*for (i=0;i<65535;i++) */    for (j=0;j<10240000;j++)   if(SHT_DATA_IN==0) break; //wait until sensor has finished the measurement
   if(SHT_DATA_IN) error+=1;                // or timeout (~2 sec.) is reached
   *(p_value+1)  =SHT_ReadByte(ACK);    //read the first byte (MSB)    dar micro harchi adrese bishtr, arzesh bishtar. baraks zakhire mikone
   *(p_value)  =SHT_ReadByte(ACK);    //read the second byte (LSB)

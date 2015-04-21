@@ -8,6 +8,7 @@
 #ifndef MS5611_H_
 #define MS5611_H_
 
+#include "twi_master_driver.h"
 //MS5611 - Air Pressure Sensor
 #define MS5607_ADD 0x77
 #define CPU_SPEED       32000000
@@ -31,7 +32,10 @@ extern uint8_t MS5611_flag;
  } MS5611_Struct;
 
 extern MS5611_Struct MS5611;
-extern TWI_Master_t twiMaster;    /*!< TWI master module. */
+extern TWI_Master_t twiMaster;
+
+extern long int pressure;
+
 void MS5611_reset(void);
 void MS5611_read_PROM(void);
 void MS5611_D_read(void);

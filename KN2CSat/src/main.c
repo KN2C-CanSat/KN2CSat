@@ -39,8 +39,8 @@
  #include "NRF24l01.h"
  #define F_CPU 32000000UL
 
- uint8_t data_flag=1;  //nmishe tu ye tabe dg bashe?
-  
+ //uint8_t data_flag=1;  //nmishe tu ye tabe dg bashe?
+ 
  int main (void)
  {
 	set_micro();
@@ -48,14 +48,26 @@
 	MS5611_reset();
 	SHT11_softreset();
     
-	
+ //data_flag=0;	
  while (1)
- {
-  	while(data_flag==0); 
-	MS5611_measure();
-  	SHT11_measure();
-	NRF_Transmit();
-	  
+ {//LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
+// 	while (data_flag==0); 
+	if(data_flag)
+	{
+ 	 //LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
+	 MS5611_measure();
+	 SHT11_measure();
+	 NRF_Transmit();
+	 }
+ 	
+   	
+ 	//
+ 	data_flag=0;
+ // 	data_flag=1;
+ //   _delay_us(3);  //dar girande?	 
+  
+ 	 
+
  }
  
  }
@@ -69,12 +81,16 @@
  
   ISR(TCD0_OVF_vect) //timer interrupt
   {
-	data_flag=1;  
+	//_delay_us(3);
+	data_flag=1; 
+	//_delay_us(3);
+	//LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
+	 
   }
   
   
-   ISR(PORTE_INT0_vect)////////////////////////////////////////PTX   IRQ Interrupt Pin
-   {
-	 PTX_IRQ();
-	   
-   }
+    ISR(PORTE_INT0_vect)////////////////////////////////////////PTX   IRQ Interrupt Pin
+    {
+ 		PTX_IRQ();
+ 	   
+    }

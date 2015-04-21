@@ -14,6 +14,8 @@
 #include "setting.h"
 #include "NRF24l01.h"
 #include "stdarg.h"
+#include "SHT11.h"
+#include "MS5611.h"
 
 char Buf_Tx[_Buffer_Size]; //{'a','b','c','d','e'}; //{'a','b','c','d','e','f','g','a','b','c','d','e','f','g','a','b','c','d','e','f','g','a','b','c','d','a','b','c','d','e','f','g'}; //= "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 char Address[_Address_Width];//pipe0 {0xE7,0xE7,0xE7,0xE7,0xE7};////
@@ -562,6 +564,7 @@ void Nrf_Empty_Data(void)
 void NRF_Transmit (void)
 {
 	Nrf_Empty_Data();
-	NrF_Fill_Data(3,257,258,259); //biar to while
+	NrF_Fill_Data(3,257,258,259);
+	//NrF_Fill_Data(3,T,H,pressure);
 	NRF_send();
 }

@@ -31,6 +31,8 @@
 
 extern char buffer[100];
 
+extern uint8_t data_flag;
+
 void UART_SEND(int l);
 
 void En_RC32M(void);
