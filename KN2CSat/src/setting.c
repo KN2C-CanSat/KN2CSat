@@ -19,6 +19,13 @@
 
 uint8_t data_flag;
 
+uint8_t SHT11_TempResultFlag;
+uint8_t SHT11_HumiResultFlag;
+uint8_t SHT11_MsrHumiFlag=1;
+uint8_t SHT11_MsrTempFlag=0;
+uint8_t SHT11_count=0;
+uint8_t SHT11_mode=1;      //Humi:1	Temp:0
+
 char buffer[100];
 void UART_SEND(int l)
 {
@@ -80,10 +87,10 @@ void USARTD0_init(void)
 	usart_rx_enable(&USARTD0_conf);
 }
 
-#define TIMERD0_PER 0x57E3  //180 ms (500-320)
+#define TIMERD0_PER 0x9C3F  //10 ms
 void TimerD0_init(void)
 {
-	tc_write_clock_source(&TCD0,TC_CLKSEL_DIV256_gc);
+	tc_write_clock_source(&TCD0,TC_CLKSEL_DIV8_gc);
 	tc_set_wgm(&TCD0,TC_WG_NORMAL);
 	tc_set_overflow_interrupt_level(&TCD0,TC_INT_LVL_MED);
 	tc_write_period(&TCD0,TIMERD0_PER);

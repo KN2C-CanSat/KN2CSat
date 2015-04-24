@@ -81,7 +81,7 @@ void MS5611_calculate(unsigned int C1,unsigned int C2,unsigned int C3,unsigned i
 		MS5611_flag=0;
 	}
 	
-	MS5611.pres[1]=MS5611.pres[0]+(0.025/(float)(0.025+1/(float)(2*(float)(3.14)*6)))*(MS5611.pres[1]-MS5611.pres[0]);    //filter
+	MS5611.pres[1]=MS5611.pres[0]+(0.028/(float)(0.028+1/(float)(2*(float)(3.14)*6)))*(MS5611.pres[1]-MS5611.pres[0]);    //low pass filter. 28 ms for ms5611 code.
 	MS5611.pres[0]=MS5611.pres[1];
 
 	printf2pc("Pressure: %ld\r",pressure);

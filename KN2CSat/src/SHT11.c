@@ -27,7 +27,7 @@ typedef union
 unsigned char copy_val;  //baraye check kardane checksum ba uni ke khodemun hesab kardim (crc)
 unsigned char check_sum;
 
-enum {TEMP,HUMI};
+enum {TEMP,HUMI};  //mishe bejash define konam? chon yeja dg am ina ro mikham
 	
 const float C1=-4.0;              // for 12 Bit
 const float C2=+0.0405;           // for 12 Bit
@@ -43,31 +43,64 @@ void SHT11_measure (void)
     value humi_val, temp_val;
     unsigned char error, checksum;
 	//long int H,T; 
-    unsigned char crc;						
+   // unsigned char crc;						
 	
     error=0;
     humi_val.i=0;
     temp_val.i=0;              
   
-    error+=s_measure((unsigned char*) &humi_val.i,&checksum,HUMI); 
-    crc= copy_val/256 + copy_val%256;
-    if (crc != check_sum)
-	{
-    s_connectionreset(); 
-	//PORTD_OUTSET=LED_Red_PIN_bm;
+    //error+=s_measure((unsigned char*) &humi_val.i,&checksum,HUMI); 
+ 	if (SHT11_MsrHumiFlag)
+ 	{
+		error+=s_measure(HUMI);
+		SHT11_count=0;
+		SHT11_HumiResultFlag=0; 
+		SHT11_MsrHumiFlag=0;
 	}
-
-    
-    error+=s_measure((unsigned char*) &temp_val.i,&checksum,TEMP);
-    crc= copy_val/256 + copy_val%256; //8 bit 8 bit ba ham jam mikone
-    if (crc != check_sum)
-	{
-    s_connectionreset();
-	//PORTD_OUTSET=LED_Red_PIN_bm;
+	 
+ 	if (SHT11_HumiResultFlag)
+ 	{
+ 		error+=SHT11_GetResult((unsigned char*) &humi_val.i,&checksum);	
+ 		SHT11_HumiResultFlag=0;
+ 		SHT11_MsrTempFlag=1;
+		SHT11_mode=0; 	
+ 	}
+ 	
+ //     crc= copy_val/256 + copy_val%256;
+ //     if (crc != check_sum)
+ // 	{
+ //     s_connectionreset(); 
+ // 	//PORTD_OUTSET=LED_Red_PIN_bm;
+ // 	}
+ 	
+     
+     //error+=s_measure((unsigned char*) &temp_val.i,&checksum,TEMP);
+ 	if (SHT11_MsrTempFlag)
+ 	{
+		error+=s_measure(TEMP);
+		SHT11_count=0;
+		SHT11_TempResultFlag=0;
+		SHT11_MsrTempFlag=0;
 	}
-    
-    if(error!=0) s_connectionreset();
-    else{                                   
+	 
+ 	if (SHT11_TempResultFlag)
+ 	{
+ 		error+=SHT11_GetResult((unsigned char*) &temp_val.i,&checksum);
+ 		SHT11_TempResultFlag=0;
+		SHT11_MsrHumiFlag=1;
+		SHT11_mode=1; 	 	
+ 	}
+	
+//     crc= copy_val/256 + copy_val%256; //8 bit 8 bit ba ham jam mikone
+//     if (crc != check_sum)
+// 	{
+//     s_connectionreset();
+// 	//PORTD_OUTSET=LED_Red_PIN_bm;
+// 	}
+//     
+    if (error!=0) s_connectionreset();
+    else if (error==0 && SHT11_mode==1) //dama o rutubat dashte bashim baraye mohasebat!
+	{                                   
          humi_val.f=(float)humi_val.i;                   //converts integer to float
          temp_val.f=(float)temp_val.i;                   //converts integer to float
          calc_sth11(&humi_val.f,&temp_val.f);            //calculate humidity, temperature
@@ -208,10 +241,10 @@ char SHT11_softreset(void)
 //----------------------------------------------------------------------------------
 // pengukuran data
 //----------------------------------------------------------------------------------
-char s_measure(unsigned char *p_value, unsigned char *p_checksum, unsigned char mode)
+char s_measure(unsigned char mode)
 { 
   unsigned error=0;                                  
-  unsigned long int i,j; 
+  //unsigned long int i,j; 
   
   //puts("s_measure");
   //putchar('\r');
@@ -224,23 +257,23 @@ char s_measure(unsigned char *p_value, unsigned char *p_checksum, unsigned char 
   }
   
   //*********************************************************************************
-   switch(mode){                     //MS5611 measure
-	   case HUMI   : MS5611_measure(); break;
-	   default     : break;
-   }
+//    switch(mode){                     //MS5611 measure
+// 	   case HUMI   : MS5611_measure(); break;
+// 	   default     : break;
+//    }
   
   //*********************************************************************************
   
   //*** inja ro zamanesho kam kon (test kon), chon kheili tulanie age bekhad gir kone barname be har dalili sensor natune kar kone
-  /*for (i=0;i<65535;i++) */    for (j=0;j<9344000;j++)   if(SHT_DATA_IN==0) break; //wait until sensor has finished the measurement
-  if(SHT_DATA_IN) error+=1;                // or timeout (~2 sec.) is reached
-  *(p_value+1)  =SHT_ReadByte(ACK);    //read the first byte (MSB)    dar micro harchi adrese bishtr, arzesh bishtar. baraks zakhire mikone
-  *(p_value)  =SHT_ReadByte(ACK);    //read the second byte (LSB)
-  *p_checksum =SHT_ReadByte(ACK);  //read checksum 
-  
-  
  
-  check_sum= *p_checksum;
+//    for (i=0;i<65535;i++)     for (j=0;j<9344000;j++)   
+//    if(SHT_DATA_IN==0) break; //wait until sensor has finished the measurement
+//    if(SHT_DATA_IN) error+=1;                // or timeout (~2 sec.) is reached
+//    *(p_value+1)  =SHT_ReadByte(ACK);    //read the first byte (MSB)    dar micro harchi adrese bishtr, arzesh bishtar. baraks zakhire mikone
+//    *(p_value)  =SHT_ReadByte(ACK);    //read the second byte (LSB)
+//    *p_checksum =SHT_ReadByte(ACK);  //read checksum 
+//    check_sum= *p_checksum;
+  
   return error;
 }   
 
@@ -287,3 +320,25 @@ void calc_sth11(float *p_humidity ,float *p_temperature)
   dew_point = (logEx - 0.66077)*237.3/(0.66077+7.5-logEx);
   return dew_point;
 } */
+
+
+char SHT11_GetResult(unsigned char *p_value, unsigned char *p_checksum)
+{
+	   unsigned error=0;
+	   unsigned char crc;
+	   
+	   if(SHT_DATA_IN) error+=1;                 // or timeout (~2 sec.) is reached
+	   *(p_value+1)=SHT_ReadByte(ACK);			 //read the first byte (MSB)    dar micro harchi adrese bishtr, arzesh bishtar. baraks zakhire mikone
+	   *(p_value)  =SHT_ReadByte(ACK);			 //read the second byte (LSB)
+	   *p_checksum =SHT_ReadByte(ACK);			 //read checksum
+	   check_sum= *p_checksum;
+	   
+	   crc= copy_val/256 + copy_val%256;
+	   if (crc != check_sum)
+	    {
+		    s_connectionreset();
+		    //PORTD_OUTSET=LED_Red_PIN_bm;
+	    }
+	  
+	   return error;
+}

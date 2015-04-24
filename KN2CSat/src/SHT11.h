@@ -31,8 +31,9 @@ char SHT_ReadByte(unsigned char ack);
 void s_transstart(void);
 void s_connectionreset(void);
 char SHT11_softreset(void);
-char s_measure(unsigned char *p_value, unsigned char *p_checksum, unsigned char mode);
+char s_measure(unsigned char mode);
 void calc_sth11(float *p_humidity ,float *p_temperature);
 void SHT11_measure (void);
+char SHT11_GetResult(unsigned char *p_value, unsigned char *p_checksum);
 
 #endif /* SHT11_H_ */

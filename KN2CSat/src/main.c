@@ -54,15 +54,16 @@
  {
 
 	
-	if(data_flag)
-	{
+	//if(data_flag)
+	//{
 	//	LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
-		//MS5611_measure();
+		
 		SHT11_measure();
-		NRF_Transmit();
-	}
+		MS5611_measure();
+		NRF_Transmit(); //bbin chera ba moteghayer moshkel dare
+	//}
 
- 	 data_flag=0;
+ 	// data_flag=0;
 
  //   _delay_us(3);  //dar girande?	 
   
@@ -81,9 +82,22 @@
  
   ISR(TCD0_OVF_vect) //timer interrupt
   {
-	
-	data_flag=1; 
-	
+ 
+// 	//data_flag=1; 
+ 	if (SHT11_mode==1) //for humi
+	switch (SHT11_count)
+	{
+		case 32 : SHT11_HumiResultFlag=1; break; //320 ms
+		default : SHT11_count++; break;
+	}
+	 
+ 	
+ 	if (SHT11_mode==0) //for temp
+	switch (SHT11_count)
+	{
+		case 8 : SHT11_TempResultFlag=1; break; //80 ms
+		default : SHT11_count++; break;
+	}
 	//LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
 	 
   }
@@ -91,6 +105,6 @@
   
      ISR(PORTE_INT0_vect)////////////////////////////////////////PTX   IRQ Interrupt Pin
      {
-  		PTX_IRQ();
+  		PTX_IRQ();  //alan ino az interrupt bar daram flag bezaram?
   	   
      }
