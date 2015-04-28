@@ -18,6 +18,8 @@
 
 long int H,T; 
 
+
+
 typedef union
 {
 	unsigned int i;
@@ -26,6 +28,8 @@ typedef union
 
 unsigned char copy_val;  //baraye check kardane checksum ba uni ke khodemun hesab kardim (crc)
 unsigned char check_sum;
+
+value humi_val, temp_val;
 
 enum {TEMP,HUMI};  //mishe bejash define konam? chon yeja dg am ina ro mikham
 	
@@ -40,56 +44,104 @@ void SHT11_measure (void)
 {
     
    // char str_hum_temp[10];            
-    value humi_val, temp_val;
+ //   value humi_val, temp_val;
     unsigned char error, checksum;
 	//long int H,T; 
    // unsigned char crc;						
 	
     error=0;
-    humi_val.i=0;
-    temp_val.i=0;              
+      humi_val.i=0;
+      temp_val.i=0;              
   
-    //error+=s_measure((unsigned char*) &humi_val.i,&checksum,HUMI); 
- 	if (SHT11_MsrHumiFlag)
- 	{
-		error+=s_measure(HUMI);
-		SHT11_count=0;
-		SHT11_HumiResultFlag=0; 
-		SHT11_MsrHumiFlag=0;
+  
+	switch(SHT11_count)
+	{
+ 		case	0	:	{	error+=s_measure(TEMP);
+							printf2pcs("0\r");
+							SHT11_count++;	
+							break;}
+ 		case	32	:	{	error+=SHT11_GetResult((unsigned char*) &temp_val.i,&checksum);
+							if (error==0)
+							{
+								//humi_val.f=(float)humi_val.i;                   //converts integer to float
+								temp_val.f=(float)temp_val.i;                   //converts integer to float
+								calc_sth11(&humi_val.f,&temp_val.f);            //calculate humidity, temperature
+								T=(int)(temp_val.f*(float)100);
+								printf2pc("Temp: %ld \r",T);
+							}
+							error+=s_measure(HUMI);
+							printf2pcs("32\r");
+							SHT11_count++;
+							break;}
+ 		case	40	:	{	error+=SHT11_GetResult((unsigned char*) &humi_val.i,&checksum);
+							printf2pcs("40\r");
+							//if (error==0)	givemethat();	
+							if (error==0)
+							{	
+								humi_val.f=(float)humi_val.i;                   //converts integer to float
+								//temp_val.f=(float)temp_val.i;                   //converts integer to float
+								calc_sth11(&humi_val.f,&temp_val.f);            //calculate humidity, temperature
+								H=(int)(humi_val.f*(float)100);
+								printf2pc("Humi: %ld \r",H);
+							}
+							error+=s_measure(TEMP);
+							SHT11_count=1;
+							//SHT11_count=0;
+							//SHT11_flag=1;
+							break;}																							
+ 		default		:	{	//printf2pcs("d\r");
+							SHT11_count++;
+							break;}
 	}
-	 
- 	if (SHT11_HumiResultFlag)
- 	{
- 		error+=SHT11_GetResult((unsigned char*) &humi_val.i,&checksum);	
- 		SHT11_HumiResultFlag=0;
- 		SHT11_MsrTempFlag=1;
-		SHT11_mode=0; 	
- 	}
- 	
- //     crc= copy_val/256 + copy_val%256;
- //     if (crc != check_sum)
- // 	{
- //     s_connectionreset(); 
- // 	//PORTD_OUTSET=LED_Red_PIN_bm;
- // 	}
- 	
-     
-     //error+=s_measure((unsigned char*) &temp_val.i,&checksum,TEMP);
- 	if (SHT11_MsrTempFlag)
- 	{
-		error+=s_measure(TEMP);
-		SHT11_count=0;
-		SHT11_TempResultFlag=0;
-		SHT11_MsrTempFlag=0;
-	}
-	 
- 	if (SHT11_TempResultFlag)
- 	{
- 		error+=SHT11_GetResult((unsigned char*) &temp_val.i,&checksum);
- 		SHT11_TempResultFlag=0;
-		SHT11_MsrHumiFlag=1;
-		SHT11_mode=1; 	 	
- 	}
+	//switch (SHT11_count) 
+	//{
+		//case	 0:			{/*error+=s_measure(HUMI);*/												printf2pcs("ok32\r");	SHT11_count++;								break;}
+		//case	 32:		{/*error+=SHT11_GetResult((unsigned char*) &humi_val.i,&checksum);*/		printf2pcs("ok32\r");	/*error+=s_measure(TEMP);*/	SHT11_count++;		break;	}
+		//case	 40:		{/*error+=SHT11_GetResult((unsigned char*) &temp_val.i,&checksum);*/		printf2pcs("ok40\r");	/*error+=s_measure(HUMI);*/	break;	}	/*SHT11_count=1;*/	
+		//default:		{SHT11_count++;		LED_Blue_PORT.OUTTGL=LED_Blue_PIN_bm;		break;}	
+	//} 
+	//
+//     //error+=s_measure((unsigned char*) &humi_val.i,&checksum,HUMI); 
+//  	if (SHT11_MsrHumiFlag)
+//  	{
+// 		error+=s_measure(HUMI);
+// 		SHT11_count=0;
+// 		SHT11_HumiResultFlag=0; 
+// 		SHT11_MsrHumiFlag=0;
+// 	}
+// 	 
+//  	if (SHT11_HumiResultFlag)
+//  	{
+//  		error+=SHT11_GetResult((unsigned char*) &humi_val.i,&checksum);	
+//  		SHT11_HumiResultFlag=0;
+//  		SHT11_MsrTempFlag=1;
+// 		SHT11_mode=0; 	
+//  	}
+//  	
+//  //     crc= copy_val/256 + copy_val%256;
+//  //     if (crc != check_sum)
+//  // 	{
+//  //     s_connectionreset(); 
+//  // 	//PORTD_OUTSET=LED_Red_PIN_bm;
+//  // 	}
+//  	
+//      
+//      //error+=s_measure((unsigned char*) &temp_val.i,&checksum,TEMP);
+//  	if (SHT11_MsrTempFlag)
+//  	{
+// 		error+=s_measure(TEMP);
+// 		SHT11_count=0;
+// 		SHT11_TempResultFlag=0;
+// 		SHT11_MsrTempFlag=0;
+// 	}
+// 	 
+//  	if (SHT11_TempResultFlag)
+//  	{
+//  		error+=SHT11_GetResult((unsigned char*) &temp_val.i,&checksum);
+//  		SHT11_TempResultFlag=0;
+// 		SHT11_MsrHumiFlag=1;
+// 		SHT11_mode=1; 	 	
+//  	}
 	
 //     crc= copy_val/256 + copy_val%256; //8 bit 8 bit ba ham jam mikone
 //     if (crc != check_sum)
@@ -97,19 +149,28 @@ void SHT11_measure (void)
 //     s_connectionreset();
 // 	//PORTD_OUTSET=LED_Red_PIN_bm;
 // 	}
-//     
-    if (error!=0) s_connectionreset();
-    else if (error==0 && SHT11_mode==1) //dama o rutubat dashte bashim baraye mohasebat!
-	{                                   
-         humi_val.f=(float)humi_val.i;                   //converts integer to float
-         temp_val.f=(float)temp_val.i;                   //converts integer to float
-         calc_sth11(&humi_val.f,&temp_val.f);            //calculate humidity, temperature
 
-		 T=(int)(temp_val.f*(float)100);
-		 H=(int)(humi_val.f*(float)100);
- 		 printf2pc("Temp: %ld \r",T); 
- 		 printf2pc("Humi: %ld \r\r",H); 
-    }                 
+// //     
+     if (error!=0) 
+ 	{
+ 		s_connectionreset();
+ 		printf2pcs("error\r");
+ 	}
+//       else //dama o rutubat dashte bashim baraye mohasebat!
+//   	{                                   
+//           //SHT11_flag=0;
+//  		 //SHT11_count=0;
+//  		 // SHT11_count=1;
+//   		 //printf2pc("humiii: %d\r",humi_val.i);
+//   		 humi_val.f=(float)humi_val.i;                   //converts integer to float
+//            temp_val.f=(float)temp_val.i;                   //converts integer to float
+//            calc_sth11(&humi_val.f,&temp_val.f);            //calculate humidity, temperature
+//   
+//   		 T=(int)(temp_val.f*(float)100);
+//   		 H=(int)(humi_val.f*(float)100);
+//    		 printf2pc("Temp: %ld \r",T); 
+//    		 printf2pc("Humi: %ld \r\r",H); 
+//       }                 	
 }
 
 
@@ -288,13 +349,13 @@ char s_measure(unsigned char mode)
 void calc_sth11(float *p_humidity ,float *p_temperature)
 { 
   
-  //float rh=*p_humidity;             // rh:      Humidity [Ticks] 12 Bit 
+  //float rh=*p_humidity;             // rh:      Humidity [Ticks] 12 Bit
   //float t=*p_temperature;           // t:       Temperature [Ticks] 14 Bit
   float rh_lin;                     // rh_lin:  Humidity linear
   float rh_true;                    // rh_true: Temperature compensated humidity
   float t_C;                        // t_C   :  Temperature [°C]
   
-  //puts("calculate"); 
+  //puts("calculate");
   //putchar('\r');
   
   t_C=*p_temperature*0.01 - 39.7;                  //calc. temperature from ticks to [°C] //man: dar 3.5(nazdik be 3.3)!
@@ -342,3 +403,18 @@ char SHT11_GetResult(unsigned char *p_value, unsigned char *p_checksum)
 	  
 	   return error;
 }
+
+//void givemethat (void)
+//{
+//// 	 humi_val.i=0;
+////      temp_val.i=0; 
+	 //
+	 //humi_val.f=(float)humi_val.i;                   //converts integer to float
+	 //temp_val.f=(float)temp_val.i;                   //converts integer to float
+	 //calc_sth11(&humi_val.f,&temp_val.f);            //calculate humidity, temperature
+	 //
+	 //T=(int)(temp_val.f*(float)100);
+	 //H=(int)(humi_val.f*(float)100);
+	 //printf2pc("Temp: %ld \r",T);
+	 //printf2pc("Humi: %ld \r\r",H);
+//}

@@ -33,12 +33,12 @@ extern char buffer[100];
 
 extern uint8_t data_flag;
 
-extern uint8_t SHT11_TempResultFlag;
-extern uint8_t SHT11_HumiResultFlag;
-extern uint8_t SHT11_MsrHumiFlag;
-extern uint8_t SHT11_MsrTempFlag;
+// extern uint8_t SHT11_TempResultFlag;
+// extern uint8_t SHT11_HumiResultFlag;
+// extern uint8_t SHT11_MsrHumiFlag;
+// extern uint8_t SHT11_MsrTempFlag;
 extern uint8_t SHT11_count;
-extern uint8_t SHT11_mode;
+extern uint8_t SHT11_flag;
 
 void UART_SEND(int l);
 

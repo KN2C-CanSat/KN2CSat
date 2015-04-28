@@ -18,13 +18,14 @@
 #include "NRF24l01.h"
 
 uint8_t data_flag;
-
-uint8_t SHT11_TempResultFlag;
-uint8_t SHT11_HumiResultFlag;
-uint8_t SHT11_MsrHumiFlag=1;
-uint8_t SHT11_MsrTempFlag=0;
+// 
+// uint8_t SHT11_TempResultFlag;
+// uint8_t SHT11_HumiResultFlag;
+// uint8_t SHT11_MsrHumiFlag=1;
+// uint8_t SHT11_MsrTempFlag=0;
 uint8_t SHT11_count=0;
-uint8_t SHT11_mode=1;      //Humi:1	Temp:0
+// uint8_t SHT11_mode=1;      //Humi:1	Temp:0
+uint8_t SHT11_flag=0;
 
 char buffer[100];
 void UART_SEND(int l)

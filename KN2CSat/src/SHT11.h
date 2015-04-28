@@ -35,5 +35,7 @@ char s_measure(unsigned char mode);
 void calc_sth11(float *p_humidity ,float *p_temperature);
 void SHT11_measure (void);
 char SHT11_GetResult(unsigned char *p_value, unsigned char *p_checksum);
+void givemethat (void);
+
 
 #endif /* SHT11_H_ */

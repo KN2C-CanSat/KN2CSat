@@ -45,22 +45,23 @@
  int main (void)
  {
 	set_micro();
-	NRF_init();
-	MS5611_reset();
-	SHT11_softreset();
-    
- //data_flag=0;	  ??
+	//NRF_init();
+	//MS5611_reset();
+	SHT11_softreset();  
+	
+	TCD0_CNT=0;
  while (1)
  {
 
 	
 	//if(data_flag)
 	//{
-	//	LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
-		
+		//LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
+		while (TCD0_CNT!=0x9C3F); //10 ms timer lock. kamesh kon, baraye nrf ziade!
 		SHT11_measure();
-		MS5611_measure();
-		NRF_Transmit(); //bbin chera ba moteghayer moshkel dare
+// 		MS5611_measure();
+// 		NRF_Transmit(); //bbin chera ba moteghayer moshkel dare
+		
 	//}
 
  	// data_flag=0;
@@ -74,37 +75,21 @@
  }
  
  
-  ISR(TWIC_TWIM_vect) //twi interrupt
-  {
-  	TWI_MasterInterruptHandler(&twiMaster);
-  }
+//   ISR(TWIC_TWIM_vect) //twi interrupt
+//   {
+//   	TWI_MasterInterruptHandler(&twiMaster);
+//   }
  
  
   ISR(TCD0_OVF_vect) //timer interrupt
   {
- 
-// 	//data_flag=1; 
- 	if (SHT11_mode==1) //for humi
-	switch (SHT11_count)
-	{
-		case 32 : SHT11_HumiResultFlag=1; break; //320 ms
-		default : SHT11_count++; break;
-	}
-	 
- 	
- 	if (SHT11_mode==0) //for temp
-	switch (SHT11_count)
-	{
-		case 8 : SHT11_TempResultFlag=1; break; //80 ms
-		default : SHT11_count++; break;
-	}
 	//LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
 	 
   }
   
   
-     ISR(PORTE_INT0_vect)////////////////////////////////////////PTX   IRQ Interrupt Pin
-     {
-  		PTX_IRQ();  //alan ino az interrupt bar daram flag bezaram?
-  	   
-     }
+//      ISR(PORTE_INT0_vect)////////////////////////////////////////PTX   IRQ Interrupt Pin
+//      {
+//   		PTX_IRQ();  //alan ino az interrupt bar daram flag bezaram?
+//   	   
+//      }
