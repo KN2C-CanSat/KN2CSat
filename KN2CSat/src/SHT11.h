@@ -35,7 +35,17 @@ char s_measure(unsigned char mode);
 void calc_sth11(float *p_humidity ,float *p_temperature);
 void SHT11_measure (void);
 char SHT11_GetResult(unsigned char *p_value, unsigned char *p_checksum);
-void givemethat (void);
+
+typedef union
+{
+	unsigned int i;
+	float f;
+} value;
+
+unsigned char copy_val;  //baraye check kardane checksum ba uni ke khodemun hesab kardim (crc)
+unsigned char check_sum;
+
+extern value humi_val, temp_val;
 
 
 #endif /* SHT11_H_ */
