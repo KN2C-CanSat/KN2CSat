@@ -21,6 +21,8 @@ long int H,T;
 
 value humi_val, temp_val;
 
+uint8_t SHT11_count=0;
+
 enum {TEMP,HUMI};  //mishe bejash define konam? chon yeja dg am ina ro mikham
 	
 const float C1=-4.0;              // for 12 Bit

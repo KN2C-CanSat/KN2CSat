@@ -46,6 +46,6 @@ unsigned char copy_val;  //baraye check kardane checksum ba uni ke khodemun hesa
 unsigned char check_sum;
 
 extern value humi_val, temp_val;
-
+extern uint8_t SHT11_count;
 
 #endif /* SHT11_H_ */

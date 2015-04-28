@@ -17,15 +17,7 @@
 #include "MS5611.h"
 #include "NRF24l01.h"
 
-uint8_t data_flag;
-// 
-// uint8_t SHT11_TempResultFlag;
-// uint8_t SHT11_HumiResultFlag;
-// uint8_t SHT11_MsrHumiFlag=1;
-// uint8_t SHT11_MsrTempFlag=0;
-uint8_t SHT11_count=0;
-// uint8_t SHT11_mode=1;      //Humi:1	Temp:0
-uint8_t SHT11_flag=0;
+
 
 char buffer[100];
 void UART_SEND(int l)
@@ -122,4 +114,13 @@ void SPI_Init(void)
 	spi_xmega_set_baud_div(&NRF24L01_L_SPI,8000000UL,F_CPU);
 	spi_enable_master_mode(&NRF24L01_L_SPI);
 	spi_enable(&NRF24L01_L_SPI);
+}
+
+
+void variable_init(void)
+{
+	MS5611.count=0;
+	MS5611.read_d=0x48;
+	MS5611.ADC_read=0x00;
+	//baghie ro biar inja
 }

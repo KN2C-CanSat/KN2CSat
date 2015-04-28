@@ -22,11 +22,40 @@ uint8_t MS5611_flag=1;
 
 long int pressure;
 
+
 void MS5611_measure(void)
 {
-	MS5611_read_PROM();
-	MS5611_D_read();
-	MS5611_calculate(MS5611.n[0],MS5611.n[1],MS5611.n[2],MS5611.n[3],MS5611.n[4],MS5611.n[5],MS5611.m[0],MS5611.m[1]);
+
+  	switch (MS5611.count)
+  	{
+  		case	0	:	{
+  							//MS5611_read_PROM();  bordamesh avale main
+  							read_d_command(MS5611.read_d);  
+  							MS5611.count++;
+							break;}
+  		case	2	:	{
+							ADC_read_command(MS5611.ADC_read,0);
+							MS5611.read_d=MS5611.read_d+16;
+							read_d_command(MS5611.read_d); 
+							MS5611.count++;
+							break;}
+ 		case	3	:	{	
+							MS5611.read_d=0x48;
+							ADC_read_command(MS5611.ADC_read,1);
+							MS5611_calculate(MS5611.n[0],MS5611.n[1],MS5611.n[2],MS5611.n[3],MS5611.n[4],MS5611.n[5],MS5611.m[0],MS5611.m[1]);
+							read_d_command(MS5611.read_d);
+							MS5611.count=1;
+							break;}
+ 		
+ 		default		:	{	
+ 							MS5611.count++;
+ 							break;}					
+  							
+  	}
+	
+// 	MS5611_read_PROM();
+// 	MS5611_D_read();
+// 	MS5611_calculate(MS5611.n[0],MS5611.n[1],MS5611.n[2],MS5611.n[3],MS5611.n[4],MS5611.n[5],MS5611.m[0],MS5611.m[1]);
 }
 
 
@@ -52,7 +81,7 @@ void MS5611_calculate(unsigned int C1,unsigned int C2,unsigned int C3,unsigned i
 
 	if (TEMP<20)
 	{
-		//T2=(dT/(float)pow(2,31))*dT;
+		//T2=(dT/(float)pow(2,31))*dT;  //moshkel dare!! check beshe
 		OFF2=(pow((TEMP-2000),2)/(float)2)*5;
 		SENS2=(pow((TEMP-2000),2)/(float)4)*5;
 		
@@ -158,4 +187,28 @@ void MS5611_calculate(unsigned int C1,unsigned int C2,unsigned int C3,unsigned i
   
   	 
   
+   }
+   
+   
+   void read_d_command (unsigned char d_reg)
+   {
+ 		TWI_MasterWriteRead(&twiMaster,MS5607_ADD,&d_reg,1,0);
+ 		while (twiMaster.status != TWIM_STATUS_READY) {
+ 			/* Wait until transaction is complete. */
+ 		}   
+   }
+   
+   
+   void ADC_read_command (unsigned char adc_reg, uint8_t i)
+   {
+		TWI_MasterWriteRead(&twiMaster,MS5607_ADD,&adc_reg,1,3);
+		while (twiMaster.status != TWIM_STATUS_READY) {
+			/* Wait until transaction is complete. */
+		}
+		/*MS5611.read_d=MS5611.read_d+16;*/
+		MS5611.d[0]=twiMaster.readData[0];
+		MS5611.d[1]=twiMaster.readData[1];
+		MS5611.d[2]=twiMaster.readData[2];
+		   		 
+		MS5611.m[i]=(unsigned long int)MS5611.d[2]+(unsigned long int)MS5611.d[1]*256+(unsigned long int)MS5611.d[0]*65536;   
    }

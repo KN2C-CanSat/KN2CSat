@@ -28,6 +28,7 @@ extern uint8_t MS5611_flag;
  	unsigned int n[6];
  	unsigned long int m[2];
  	float pres[3];
+	uint8_t	count; 
  	
  } MS5611_Struct;
 
@@ -42,6 +43,7 @@ void MS5611_D_read(void);
 void MS5611_calculate(unsigned int C1,unsigned int C2,unsigned int C3,unsigned int C4,unsigned int C5,unsigned int C6,long int D1,long int D2);
 
 void MS5611_measure(void);
-
+void read_d_command (unsigned char d_reg);
+void ADC_read_command (unsigned char adc_reg, uint8_t i);
 #endif /* MS5611_H_ */
 
