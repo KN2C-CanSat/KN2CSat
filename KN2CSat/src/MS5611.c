@@ -33,13 +33,13 @@ void MS5611_measure(void)
   							read_d_command(MS5611.read_d);  
   							MS5611.count++;
 							break;}
-  		case	2	:	{
+  		case	3	:	{
 							ADC_read_command(MS5611.ADC_read,0);
 							MS5611.read_d=MS5611.read_d+16;
 							read_d_command(MS5611.read_d); 
 							MS5611.count++;
 							break;}
- 		case	3	:	{	
+ 		case	6	:	{	
 							MS5611.read_d=0x48;
 							ADC_read_command(MS5611.ADC_read,1);
 							MS5611_calculate(MS5611.n[0],MS5611.n[1],MS5611.n[2],MS5611.n[3],MS5611.n[4],MS5611.n[5],MS5611.m[0],MS5611.m[1]);

@@ -80,10 +80,10 @@ void USARTD0_init(void)
 	usart_rx_enable(&USARTD0_conf);
 }
 
-#define TIMERD0_PER 0x9C3F  //10 ms
+#define TIMERD0_PER 0xF9FF  //10 ms//4
 void TimerD0_init(void)
 {
-	tc_write_clock_source(&TCD0,TC_CLKSEL_DIV8_gc);
+	tc_write_clock_source(&TCD0,TC_CLKSEL_DIV2_gc);
 	tc_set_wgm(&TCD0,TC_WG_NORMAL);
 	tc_set_overflow_interrupt_level(&TCD0,TC_INT_LVL_MED);
 	tc_write_period(&TCD0,TIMERD0_PER);

@@ -48,7 +48,7 @@
 	//NRF_init();
 	MS5611_reset();
 	MS5611_read_PROM();
-	//SHT11_softreset();  
+	SHT11_softreset();  
 	variable_init();
 	
 	TCD0_CNT=0;
@@ -60,8 +60,8 @@
 	//if(data_flag)
 	//{
 		//LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
-		while (TCD0_CNT!=0x9C3F); //10 ms timer lock. kamesh kon, baraye nrf ziade! (?)
-		//SHT11_measure();
+		while (TCD0_CNT!=0xF9FF); //10 ms timer lock. kamesh kon, baraye nrf ziade! (?)
+		SHT11_measure();
  		MS5611_measure();
 // 		NRF_Transmit(); //bbin chera ba moteghayer moshkel dare
 		

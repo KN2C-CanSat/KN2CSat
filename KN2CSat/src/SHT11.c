@@ -47,7 +47,7 @@ void SHT11_measure (void)
  		case	0	:	{	error+=s_measure(TEMP);
 							SHT11_count++;	
 							break;}
- 		case	32	:	{	error+=SHT11_GetResult((unsigned char*) &temp_val.i,&checksum);
+ 		case	80	:	{	error+=SHT11_GetResult((unsigned char*) &temp_val.i,&checksum);
 							if (error==0)
 							{
 								temp_val.f=(float)temp_val.i;                     //converts integer to float
@@ -58,7 +58,7 @@ void SHT11_measure (void)
 							error+=s_measure(HUMI);
 							SHT11_count++;
 							break;}
- 		case	40	:	{	error+=SHT11_GetResult((unsigned char*) &humi_val.i,&checksum);
+ 		case	100	:	{	error+=SHT11_GetResult((unsigned char*) &humi_val.i,&checksum);
 							if (error==0)
 							{	
 								humi_val.f=(float)humi_val.i;                   //converts integer to float
