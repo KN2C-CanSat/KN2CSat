@@ -20,6 +20,8 @@ MS5611_Struct MS5611;
 TWI_Master_t twiMaster;    /*!< TWI master module. */
 
 uint8_t MS5611_flag=1;
+uint8_t MS5611_dataflag=0;
+uint8_t twi_flag=0;
 
 long int pressure;
 long int temperature;
@@ -47,6 +49,7 @@ void MS5611_measure(void)
 							{
 								MS5611_calculate(MS5611.n[0],MS5611.n[1],MS5611.n[2],MS5611.n[3],MS5611.n[4],MS5611.n[5],MS5611.m[0],MS5611.m[1]);
 								SHT11_dataflag=0;
+								MS5611_dataflag=1;
 							}
 							read_d_command(MS5611.read_d);
 							MS5611.count=1;

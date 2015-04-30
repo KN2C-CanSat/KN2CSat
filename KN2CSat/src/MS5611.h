@@ -16,6 +16,8 @@
 #define TWI_BAUDSETTING TWI_BAUD(CPU_SPEED, BAUDRATE)  
 
 extern uint8_t MS5611_flag;
+extern uint8_t MS5611_dataflag;
+extern uint8_t twi_flag;
 
  typedef struct {
  	

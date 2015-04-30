@@ -42,17 +42,18 @@
  //uint8_t data_flag=1;  //nmishe tu ye tabe dg bashe?
 //  long int countt;
 //  long int testt=0;
+ uint8_t nrf_flag=0;
  int main (void)
  {
 	set_micro();
-	//NRF_init();
+	NRF_init();
 	MS5611_reset();
 	MS5611_read_PROM();
 	SHT11_softreset();  
 	variable_init();
 	
 	TCD0_CNT=0;
-	
+ 	
  while (1)
  {
 
@@ -63,7 +64,23 @@
 		while (TCD0_CNT!=0xF9FF); //10 ms timer lock. kamesh kon, baraye nrf ziade! (?)
 		SHT11_measure();
  		MS5611_measure();
-// 		NRF_Transmit(); //bbin chera ba moteghayer moshkel dare
+ 		
+		if (MS5611_dataflag) 
+		{
+			NRF_Transmit(); //bbin chera ba moteghayer moshkel dare
+			MS5611_dataflag=0;	
+		}
+		
+		if (nrf_flag)  //doroste inja?
+		{
+			PTX_IRQ();
+			nrf_flag=0;
+		}
+// 		if (twi_flag)    nashod
+// 		{
+// 		TWI_MasterInterruptHandler(&twiMaster);
+// 		twi_flag=0;	
+// 		}
 		
 	//}
 
@@ -78,9 +95,10 @@
  }
  
  
-    ISR(TWIC_TWIM_vect) //twi interrupt
+    ISR(TWIC_TWIM_vect) //twi interrupt  //key mikhore ke biaram tu while?
     {
-    	TWI_MasterInterruptHandler(&twiMaster);
+    	TWI_MasterInterruptHandler(&twiMaster);  //ino chi?
+		//twi_flag=1;
     }
  
  
@@ -91,8 +109,8 @@
   }
   
   
-//      ISR(PORTE_INT0_vect)////////////////////////////////////////PTX   IRQ Interrupt Pin
-//      {
-//   		PTX_IRQ();  //alan ino az interrupt bar daram flag bezaram?
-//   	   
-//      }
+      ISR(PORTE_INT0_vect)////////////////////////////////////////PTX   IRQ Interrupt Pin
+      {
+   		//PTX_IRQ();  //alan ino az interrupt bar daram flag bezaram?
+   	    nrf_flag=1;
+      }
