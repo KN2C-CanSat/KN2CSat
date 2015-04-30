@@ -14,6 +14,7 @@
 #include "twi_master_driver.h"
 #include "setting.h"
 #include "MS5611.h"
+#include "SHT11.h"
 
 MS5611_Struct MS5611;
 TWI_Master_t twiMaster;    /*!< TWI master module. */
@@ -21,7 +22,7 @@ TWI_Master_t twiMaster;    /*!< TWI master module. */
 uint8_t MS5611_flag=1;
 
 long int pressure;
-
+long int temperature;
 
 void MS5611_measure(void)
 {
@@ -42,11 +43,21 @@ void MS5611_measure(void)
  		case	6	:	{	
 							MS5611.read_d=0x48;
 							ADC_read_command(MS5611.ADC_read,1);
-							MS5611_calculate(MS5611.n[0],MS5611.n[1],MS5611.n[2],MS5611.n[3],MS5611.n[4],MS5611.n[5],MS5611.m[0],MS5611.m[1]);
+							if (SHT11_dataflag)
+							{
+								MS5611_calculate(MS5611.n[0],MS5611.n[1],MS5611.n[2],MS5611.n[3],MS5611.n[4],MS5611.n[5],MS5611.m[0],MS5611.m[1]);
+								SHT11_dataflag=0;
+							}
 							read_d_command(MS5611.read_d);
 							MS5611.count=1;
 							break;}
- 		
+							
+// 		case	100	:	{
+// 							//baraye chap
+// 							printf2pc("Pressure: %ld\r",pressure);					
+//  							printf2pc("Temperature: %ld\r\r",temperature);
+// 							break;}
+// 							 
  		default		:	{	
  							MS5611.count++;
  							break;}					
@@ -71,8 +82,8 @@ void MS5611_calculate(unsigned int C1,unsigned int C2,unsigned int C3,unsigned i
 	float TEMP;
 	//float T2=0;
 	
-	//long int pressure; //baraye chaap
-	long int temperature;
+			//long int pressure; //baraye chaap
+	//long int temperature;
 	
 	dT=(long int)D2-(long int)(C5*pow(2,8));
 	TEMP=(2000+(C6/(float)pow(2,23))*dT)/100;
@@ -116,7 +127,7 @@ void MS5611_calculate(unsigned int C1,unsigned int C2,unsigned int C3,unsigned i
 	printf2pc("Pressure: %ld\r",pressure);
 	TEMP=TEMP*100;
 	temperature=(long int)TEMP;
-	//temperature=(long int)T2;
+			//temperature=(long int)T2;
 	printf2pc("Temperature: %ld\r\r",temperature);
 
 }

@@ -22,6 +22,7 @@ long int H,T;
 value humi_val, temp_val;
 
 uint8_t SHT11_count=0;
+uint8_t SHT11_dataflag=0;
 
 enum {TEMP,HUMI};  //mishe bejash define konam? chon yeja dg am ina ro mikham
 	
@@ -65,6 +66,7 @@ void SHT11_measure (void)
 								calc_sth11(&humi_val.f,&temp_val.f);              //calculate humidity, temperature
 								H=(int)(humi_val.f*(float)100);
 								printf2pc("Humi: %ld \r\r",H);
+								SHT11_dataflag=1;
 							}
 							error+=s_measure(TEMP);
 							SHT11_count=1;

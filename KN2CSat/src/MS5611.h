@@ -36,6 +36,7 @@ extern MS5611_Struct MS5611;
 extern TWI_Master_t twiMaster;
 
 extern long int pressure;
+long int temperature;
 
 void MS5611_reset(void);
 void MS5611_read_PROM(void);

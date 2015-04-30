@@ -47,5 +47,6 @@ unsigned char check_sum;
 
 extern value humi_val, temp_val;
 extern uint8_t SHT11_count;
+extern uint8_t SHT11_dataflag;
 
 #endif /* SHT11_H_ */
