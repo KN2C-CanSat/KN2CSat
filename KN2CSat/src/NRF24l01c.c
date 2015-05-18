@@ -16,6 +16,7 @@
 #include "stdarg.h"
 #include "SHT11.h"
 #include "MS5611.h"
+#include "MPC.h"
 
 char Buf_Tx[_Buffer_Size]; //{'a','b','c','d','e'}; //{'a','b','c','d','e','f','g','a','b','c','d','e','f','g','a','b','c','d','e','f','g','a','b','c','d','a','b','c','d','e','f','g'}; //= "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 char Address[_Address_Width];//pipe0 {0xE7,0xE7,0xE7,0xE7,0xE7};////
@@ -491,6 +492,9 @@ void NRF_send (void)
 {
 	NRF24L01_L_WriteRegBuf(W_REGISTER | (RX_ADDR_P0 ), Address, _Address_Width);
 	NRF24L01_L_Set_TX_Address(Address, _Address_Width);
+	for (uint8_t k=0;k<Nrf.Len+2;k++)
+	printf2pc("%c",Nrf.data[k]);
+	//printf2pc("\rlen: %d\r\r",Nrf.Len);
 	NRF24L01_L_Write_TX_Buf(Nrf.data, _Buffer_Size);
 	NRF24L01_L_RF_TX();
 }
@@ -528,14 +532,15 @@ void NrF_Fill_Data(uint8_t num , ... ) //num: tedade dade
 	
 	for(int i=0;i < num;i++)
 	{
-		conv.real=va_arg( arguments, int ); //int por mishe
+		conv.real=(uint16_t)va_arg( arguments, int ); //int por mishe
 		Nrf.Check_Sum = Nrf.Check_Sum + (uint8_t)conv.byte[0] + (uint8_t)conv.byte[1];
 		Nrf.data[Nrf.Len + 2] = conv.byte[0];
 		Nrf.data[Nrf.Len + 2 + 1] = conv.byte[1];
 		Nrf.Len = Nrf.Len + 2;
 	}
-	Nrf.data[2]=Nrf.Len+1;
-	Nrf.data[Nrf.Len+2] = ~Nrf.Check_Sum + 1 ; //
+	Nrf.Len++; //for check_sum
+	Nrf.data[2]=Nrf.Len; 
+	Nrf.data[Nrf.Len+1] = ~Nrf.Check_Sum + 1 ; //
 	va_end ( arguments );
 }
 
@@ -564,7 +569,11 @@ void Nrf_Empty_Data(void)
 void NRF_Transmit (void)
 {
 	Nrf_Empty_Data();
-	NrF_Fill_Data(3,257,258,259);
+	
+	//NrF_Fill_Data(4,T,pressure,H,259);
+	NrF_Fill_Data(5,T,H,temperature,finalpres.integer[0],finalpres.integer[1]); //pres long inte, taghir lazem dari
+	//printf2pc("len: %d\r",Nrf.Len);
+	//Mpc_Fill_Data(&MPC,T,H,256);
 	//NrF_Fill_Data(3,T,H,pressure);
 	NRF_send();
 }

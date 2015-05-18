@@ -14,7 +14,7 @@
 #define	_CH_0 50			// Channel 0..125
 #define	_CH_1 1
 #define	_Address_Width	5	// 3..5
-#define _Buffer_Size 11 // 1..32
+#define _Buffer_Size 32 // 1..32
 
 /************************************************************************/
 /* Board Initialize                                                     */
@@ -233,7 +233,7 @@ typedef union _ch2int  ch2int;
 typedef struct {
 	
 	uint8_t Add;
-	char    data[10];// age bekhad beshkane do bodish kon :p
+	char    data[20];// age bekhad beshkane do bodish kon :p
 	uint8_t State;
 	uint8_t Num;
 	uint8_t Check_Sum;

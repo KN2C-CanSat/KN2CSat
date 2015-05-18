@@ -16,8 +16,8 @@
 #include "SHT11.h"
 #include "MS5611.h"
 
-long int H,T; 
-
+//long int H,T; 
+int H,T; 
 
 value humi_val, temp_val;
 
@@ -54,7 +54,7 @@ void SHT11_measure (void)
 								temp_val.f=(float)temp_val.i;                     //converts integer to float
 								calc_sth11(&humi_val.f,&temp_val.f);              //calculate humidity, temperature
 								T=(int)(temp_val.f*(float)100);
-								printf2pc("Temp: %ld \r",T);
+								//printf2pc("Temp: %ld \r",T);
 							}
 							error+=s_measure(HUMI);
 							SHT11_count++;
@@ -65,7 +65,7 @@ void SHT11_measure (void)
 								humi_val.f=(float)humi_val.i;                   //converts integer to float
 								calc_sth11(&humi_val.f,&temp_val.f);              //calculate humidity, temperature
 								H=(int)(humi_val.f*(float)100);
-								printf2pc("Humi: %ld \r\r",H);
+								//printf2pc("Humi: %ld \r\r",H);
 								SHT11_dataflag=1;
 							}
 							error+=s_measure(TEMP);

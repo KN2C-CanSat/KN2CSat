@@ -23,7 +23,8 @@
 #define     RESET           0x1e   //000   1111    0
 
 
-extern long int H,T; 
+//extern long int H,T; 
+extern int H,T; 
 
 //SHT Functions
 char SHT_WriteByte(unsigned char valu);

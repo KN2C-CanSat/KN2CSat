@@ -39,9 +39,6 @@
  #include "NRF24l01.h"
  #define F_CPU 32000000UL
 
- //uint8_t data_flag=1;  //nmishe tu ye tabe dg bashe?
-//  long int countt;
-//  long int testt=0;
  uint8_t nrf_flag=0;
  int main (void)
  {
@@ -57,38 +54,26 @@
  while (1)
  {
 
-	
-	//if(data_flag)
-	//{
-		//LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
-		while (TCD0_CNT!=0xF9FF); //10 ms timer lock. kamesh kon, baraye nrf ziade! (?)
+		while (TCD0_CNT!=0xF9FF); //10 ms timer lock.
 		SHT11_measure();
  		MS5611_measure();
  		
-		if (MS5611_dataflag) 
-		{
-			NRF_Transmit(); //bbin chera ba moteghayer moshkel dare
-			MS5611_dataflag=0;	
-		}
+ 		if (MS5611_dataflag) 
+ 		{
+ 			NRF_Transmit();
+ 			MS5611_dataflag=0;	
+ 		}
 		
-		if (nrf_flag)  //doroste inja?
-		{
-			PTX_IRQ();
-			nrf_flag=0;
-		}
-// 		if (twi_flag)    nashod
-// 		{
-// 		TWI_MasterInterruptHandler(&twiMaster);
-// 		twi_flag=0;	
-// 		}
-		
-	//}
-
- 	// data_flag=0;
-
- //   _delay_us(3);  //dar girande?	 
-  
- 	 
+  		if (nrf_flag)  //doroste inja?
+  		{
+  			PTX_IRQ();
+  			nrf_flag=0;
+  		}
+ 		//if (twi_flag)    nashod
+ 		//{
+ 		//TWI_MasterInterruptHandler(&twiMaster);
+ 		//twi_flag=0;	
+ 		//}
 
  }
  
@@ -102,15 +87,15 @@
     }
  
  
-  ISR(TCD0_OVF_vect) //timer interrupt
-  {
-	//LED_Blue_PORT.OUTTGL = LED_Blue_PIN_bm;
+	  ISR(TCD0_OVF_vect) //timer interrupt
+	  {
+
 	 
-  }
+	  }
   
-  
+    
       ISR(PORTE_INT0_vect)////////////////////////////////////////PTX   IRQ Interrupt Pin
       {
-   		//PTX_IRQ();  //alan ino az interrupt bar daram flag bezaram?
-   	    nrf_flag=1;
+     	//PTX_IRQ();  //alan ino az interrupt bar daram flag bezaram?
+     	nrf_flag=1;
       }

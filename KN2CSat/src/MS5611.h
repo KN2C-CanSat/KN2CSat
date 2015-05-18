@@ -19,6 +19,14 @@ extern uint8_t MS5611_flag;
 extern uint8_t MS5611_dataflag;
 extern uint8_t twi_flag;
 
+typedef union
+{
+	long int lngint;
+	int integer[2];
+} lngint2int;
+ 
+ extern lngint2int finalpres; 
+
  typedef struct {
  	
  	unsigned char c[2];
@@ -37,8 +45,11 @@ extern uint8_t twi_flag;
 extern MS5611_Struct MS5611;
 extern TWI_Master_t twiMaster;
 
-extern long int pressure;
-long int temperature;
+ extern long int pressure;
+// extern long int temperature;
+//extern int pressure;
+extern int temperature;
+
 
 void MS5611_reset(void);
 void MS5611_read_PROM(void);

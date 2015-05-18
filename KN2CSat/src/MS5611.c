@@ -23,8 +23,12 @@ uint8_t MS5611_flag=1;
 uint8_t MS5611_dataflag=0;
 uint8_t twi_flag=0;
 
-long int pressure;
-long int temperature;
+lngint2int finalpres; 
+
+ long int pressure;
+// long int temperature;
+//int pressure;
+int temperature;
 
 void MS5611_measure(void)
 {
@@ -116,22 +120,25 @@ void MS5611_calculate(unsigned int C1,unsigned int C2,unsigned int C3,unsigned i
 	MS5611.pres[1]=(MS5611.pres[1]-q)/(float)100;
 	
 	MS5611.pres[1]=MS5611.pres[1]*100;
-	pressure=(long int)MS5611.pres[1];
 	
-	if (MS5611_flag==1)  //bare aval last_data ba data barabare
-	{
-		MS5611.pres[0]=MS5611.pres[1];
-		MS5611_flag=0;
-	}
+ 	if (MS5611_flag==1)  //bare aval last_data ba data barabare
+ 	{
+ 		MS5611.pres[0]=MS5611.pres[1];
+ 		MS5611_flag=0;
+ 	}
+ 	
+ 	MS5611.pres[1]=MS5611.pres[0]+(0.028/(float)(0.028+1/(float)(2*(float)(3.14)*7)))*(MS5611.pres[1]-MS5611.pres[0]);    //low pass filter. 28 ms for ms5611 code.
+ 	MS5611.pres[0]=MS5611.pres[1];
+	pressure=(long int)MS5611.pres[1]; //jash doroste?
 	
-	MS5611.pres[1]=MS5611.pres[0]+(0.028/(float)(0.028+1/(float)(2*(float)(3.14)*6)))*(MS5611.pres[1]-MS5611.pres[0]);    //low pass filter. 28 ms for ms5611 code.
-	MS5611.pres[0]=MS5611.pres[1];
-
-	printf2pc("Pressure: %ld\r",pressure);
+	finalpres.lngint=pressure;
+// 	printf2pc("Pressure:: %ld\r",finalpres.lngint);
+// 	printf2pc("byte[0]: %d\r",finalpres.integer[0]);
+// 	printf2pc("byte[1]: %d\r",finalpres.integer[1]);
 	TEMP=TEMP*100;
 	temperature=(long int)TEMP;
 			//temperature=(long int)T2;
-	printf2pc("Temperature: %ld\r\r",temperature);
+	//printf2pc("Temperature: %ld\r\r",temperature);
 
 }
 

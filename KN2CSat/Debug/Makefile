@@ -67,6 +67,7 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../src/ASF/xmega/drivers/spi/spi.c \
+../src/MPC.c \
 ../src/MS5611.c \
 ../src/NRF24l01c.c \
 ../src/setting.c \
@@ -92,6 +93,7 @@ ASM_SRCS +=
 
 OBJS +=  \
 src/ASF/xmega/drivers/spi/spi.o \
+src/MPC.o \
 src/MS5611.o \
 src/NRF24l01c.o \
 src/setting.o \
@@ -110,6 +112,7 @@ src/main.o
 
 OBJS_AS_ARGS +=  \
 src/ASF/xmega/drivers/spi/spi.o \
+src/MPC.o \
 src/MS5611.o \
 src/NRF24l01c.o \
 src/setting.o \
@@ -128,6 +131,7 @@ src/main.o
 
 C_DEPS +=  \
 src/ASF/xmega/drivers/spi/spi.d \
+src/MPC.d \
 src/MS5611.d \
 src/NRF24l01c.d \
 src/setting.d \
@@ -146,6 +150,7 @@ src/main.d
 
 C_DEPS_AS_ARGS +=  \
 src/ASF/xmega/drivers/spi/spi.d \
+src/MPC.d \
 src/MS5611.d \
 src/NRF24l01c.d \
 src/setting.d \
@@ -176,6 +181,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 
