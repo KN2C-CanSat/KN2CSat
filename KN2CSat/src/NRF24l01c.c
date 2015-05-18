@@ -571,7 +571,7 @@ void NRF_Transmit (void)
 	Nrf_Empty_Data();
 	
 	//NrF_Fill_Data(4,T,pressure,H,259);
-	NrF_Fill_Data(5,T,H,temperature,finalpres.integer[0],finalpres.integer[1]); //pres long inte, taghir lazem dari
+	NrF_Fill_Data(5,T,H,temperature,finalpres.integer[0],finalpres.integer[1]); //pres long inte, taghir lazem dari //***feshar akharin data bashad, dar girande intori dar nazar gerefte shode
 	//printf2pc("len: %d\r",Nrf.Len);
 	//Mpc_Fill_Data(&MPC,T,H,256);
 	//NrF_Fill_Data(3,T,H,pressure);

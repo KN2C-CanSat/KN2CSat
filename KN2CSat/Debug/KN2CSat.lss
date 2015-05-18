@@ -2108,7 +2108,7 @@ void NRF_Transmit (void)
      e42:	df df       	rcall	.-66     	; 0xe02 <Nrf_Empty_Data>
 	
 	//NrF_Fill_Data(4,T,pressure,H,259);
-	NrF_Fill_Data(5,T,H,temperature,finalpres.integer[0],finalpres.integer[1]); //pres long inte, taghir lazem dari
+	NrF_Fill_Data(5,T,H,temperature,finalpres.integer[0],finalpres.integer[1]); //pres long inte, taghir lazem dari //***feshar akharin data bashad, dar girande intori dar nazar gerefte shode
      e44:	e1 e7       	ldi	r30, 0x71	; 113
      e46:	f0 e2       	ldi	r31, 0x20	; 32
      e48:	81 81       	ldd	r24, Z+1	; 0x01
